@@ -20,7 +20,11 @@ apt-cache policy docker-engine
 
 sudo apt-get install linux-image-extra-$(uname -r)
 
+sudo apt-get install docker-engine
+
 sudo usermod -aG docker $USER
+
+sudo service docker start
 ```
 
 ## create dockerfile
