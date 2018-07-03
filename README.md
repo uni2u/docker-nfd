@@ -39,4 +39,20 @@ RUN apt-get update
 RUN apt-get install -y nfd
 ```
 
-## run docker
+## build docker image
+Open the terminal and change a new directory
+Then input docker build command
+
+```
+docker build -t named_data/nfd
+```
+
+## run docker process
+
+```
+docker run --rm -ti named_data/nfd /bin/bash
+```
+
+### Docker Tutorial or Document
+* https://www.docker.com/tryit/
+* https://docs.docker.com/
