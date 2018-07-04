@@ -27,7 +27,45 @@ sudo usermod -aG docker $USER
 sudo service docker start
 ```
 
-## create dockerfile
+## Tutorial
+
+The following give you a NDN ping
+
+```
+git clone --depth 1 https://github.com/uni2u/docker-nfd.git
+docker build -t ndn:test docker-nfd/
+
+git clone --depth 1 https://github.com/uni2u/docker-nfd-ping.git
+docker build -t ndntools docker-nfd-ping/
+
+docker run -it --rm --name ping -p 6363:6363 ndntools /bin/bash
+nfd-start
+ndn-repo-ng
+```
+
+On another terminal run
+
+```
+docker exec -it ping /bin/bash
+cd ndn-tools
+
+ndnping ndn:/edu/arizona
+ndnping -c 4 -t ndn:/edu/arizona
+```
+
+On another terminal run
+
+```
+docker exec -it ping /bin/bash
+cd ndn-tools
+
+ndnpingserver ndn:/edu/arizona
+ndnpingserver -p 4 ndn:/edu/arizona
+```
+
+## Reference
+
+### create dockerfile
 
 ```
 # This is based on the instructions from:
@@ -43,7 +81,7 @@ RUN apt-get update
 RUN apt-get install -y nfd
 ```
 
-## build docker image
+### build docker image
 Open the terminal and change a new directory
 Then input docker build command
 
@@ -51,7 +89,7 @@ Then input docker build command
 docker build -t named_data/nfd
 ```
 
-## run docker process
+### run docker process
 
 ```
 docker run --rm -ti named_data/nfd /bin/bash
