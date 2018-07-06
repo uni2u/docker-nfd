@@ -27,6 +27,15 @@ sudo usermod -aG docker $USER
 sudo service docker start
 ```
 
+## simple docker install (ubuntu 16.04)
+
+```
+curl -sSL https://get.docker.com/ | sh
+or
+wget -qO- https://get.docker.com/ | sh
+```
+
+
 ## Tutorial
 
 The following give you a NDN ping
