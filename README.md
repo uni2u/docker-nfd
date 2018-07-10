@@ -35,6 +35,45 @@ or
 wget -qO- https://get.docker.com/ | sh
 ```
 
+## docker network with ovs
+
+```
+sudo apt-get install -y openvswitch-switch bridge-utils
+sudo service docker stop
+sudo ip link set dev docker0 down
+sudo brctl delbr docker0
+sudo iptables -t nat -F POSTROUTING
+```
+
+* server01
+```
+sudo brctl addbr docker0
+sudo ip addr add 10.0.0.1/24 dev docker0
+sudo ip link set dev docker0 up
+
+sudo ovs-vsctl add-br br-int
+sudo ovs-vsctl add-port br-int vxlan0 -- set Interface vxlan0 type=vxlan options:remote_ip=<server2_IP>
+sudo ip link add veth_sw0 type veth peer name veth_d0
+sudo ovs-vsctl add-port br-int veth_sw0
+sudo brctl addif docker0 veth_d0
+sudo ip link set dev veth_sw0 up
+sudo ip link set dev veth_d0 up
+```
+
+* server02
+```
+sudo brctl addbr docker0
+sudo ip addr add 10.0.0.2/24 dev docker0
+sudo ip link set dev docker0 up
+
+sudo ovs-vsctl add-br br-int
+sudo ovs-vsctl add-port br-int vxlan0 -- set Interface vxlan0 type=vxlan options:remote_ip=<server1_IP>
+sudo ip link add veth_sw0 type veth peer name veth_d0
+sudo ovs-vsctl add-port br-int veth_sw0
+sudo brctl addif docker0 veth_d0
+sudo ip link set dev veth_sw0 up
+sudo ip link set dev veth_d0 up
+```
 
 ## Tutorial
 
