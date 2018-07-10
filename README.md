@@ -91,9 +91,15 @@ nfd-start
 ndn-repo-ng
 ```
 
-On another terminal run
+* server01
 
 ```
+nfdc face list
+nfdc face create remote tcp://<server02_container_ip>
+
+nfdc route list
+nfdc route add prefix /dcn/ping nexthop <facdID> cost 10
+
 docker exec -it ping /bin/bash
 cd ndn-tools
 
@@ -101,7 +107,7 @@ ndnping ndn:/edu/arizona
 ndnping -c 4 -t ndn:/edu/arizona
 ```
 
-On another terminal run
+* server02
 
 ```
 docker exec -it ping /bin/bash
